@@ -6,12 +6,12 @@ import 'package:posts_bloc/data/remote/utils/dio_manager.dart';
 class PostsRepository {
   Future<List<PostsModel>> getPosts() async {
     try {
-      print("Posts Api hit");
-      return postsModelFromJson((await DioManager.getInstance()!.get(
+      return postsModelFromJson((await (await DioManager.getInstance())!.get(
               AppApiCalls.getPosts,
               options: Options(responseType: ResponseType.plain)))
           .data);
-    } on DioException {
+    } on DioException catch (ex) {
+      print(ex.toString());
       return <PostsModel>[];
     }
   }

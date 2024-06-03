@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:posts_bloc/base/screens/base_widget.dart';
 
 typedef TitleBuilder<T> = Widget Function(T item);
 typedef OnTap<T> = Function(T item);
 
-class CustomListView<T> extends StatefulWidget {
+class CustomListView<T> extends BaseWidget {
   final List<T> data;
   final TitleBuilder<T> titleBuilder;
   final Icon? leadingIcon;
@@ -28,10 +29,10 @@ class CustomListView<T> extends StatefulWidget {
   });
 
   @override
-  State<CustomListView<T>> createState() => _CustomListViewState<T>();
+  BaseWidgetState<BaseWidget> getState() => _CustomListViewState<T>();
 }
 
-class _CustomListViewState<T> extends State<CustomListView<T>> {
+class _CustomListViewState<T> extends BaseWidgetState<CustomListView<T>> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(

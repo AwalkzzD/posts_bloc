@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:posts_bloc/base/screens/base_widget.dart';
 import 'package:posts_bloc/base/utils/widgets/custom_list_view.dart';
 import 'package:posts_bloc/bloc/posts/posts_bloc.dart';
-import 'package:posts_bloc/bloc/posts/posts_events.dart';
 import 'package:posts_bloc/bloc/posts/posts_states.dart';
 import 'package:posts_bloc/data/remote/repository/posts_repository.dart';
 
@@ -18,7 +17,6 @@ class _PostsScreenState extends BaseWidgetState<PostsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PostsBloc>().add(PostsFetchEvent());
   }
 
   @override

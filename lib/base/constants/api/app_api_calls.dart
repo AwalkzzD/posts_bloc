@@ -8,6 +8,8 @@ class AppApiCalls {
   static const int readTimeout = 5;
   static const int writeTimeout = 5;
 
+  static const int cacheTimeoutMinutes = 3;
+
   /// API BaseUrl
   static const String postsApiBaseUrl = "https://jsonplaceholder.typicode.com/";
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:posts_bloc/bloc/posts/posts_bloc.dart';
-import 'package:posts_bloc/ui/posts/posts_screen.dart';
+import 'package:posts_bloc/bloc/posts/posts_events.dart';
+import 'package:posts_bloc/ui/temp/test.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
+  Hive.init((await getApplicationDocumentsDirectory()).path);
   runApp(const PostApp());
 }
 
@@ -20,7 +19,9 @@ class PostApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => PostsBloc()),
+        BlocProvider(
+          create: (_) => PostsBloc()..add(PostsFetchEvent()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,7 +30,7 @@ class PostApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const PostsScreen(),
+        home: const Test(),
       ),
     );
   }

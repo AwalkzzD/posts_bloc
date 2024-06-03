@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:posts_bloc/bloc/posts/posts_events.dart';
 import 'package:posts_bloc/bloc/posts/posts_states.dart';
-import 'package:posts_bloc/data/remote/model/posts_model.dart';
 import 'package:posts_bloc/data/remote/repository/posts_repository.dart';
 
-class PostsBloc extends Bloc<PostsEvents, PostsStates> with HydratedMixin {
+class PostsBloc extends Bloc<PostsEvents, PostsStates> {
   PostsRepository postsRepository = PostsRepository();
 
   PostsBloc() : super(const PostsStates()) {
@@ -27,7 +26,7 @@ class PostsBloc extends Bloc<PostsEvents, PostsStates> with HydratedMixin {
     });
   }
 
-  @override
+/*@override
   PostsStates? fromJson(Map<String, dynamic> json) {
     try {
       return PostsStates(
@@ -57,5 +56,5 @@ class PostsBloc extends Bloc<PostsEvents, PostsStates> with HydratedMixin {
     } catch (_) {
       return null;
     }
-  }
+  }*/
 }
