@@ -10,21 +10,101 @@ class Test extends BaseWidget {
 }
 
 class _TestState extends BaseWidgetState<Test> {
+  int counter = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ElevatedButton(
-                onPressed: _getNetworkDetails,
-                child: const Text("Get Wifi Networks")),
+            Card.outlined(
+              elevation: 10,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(8)),
+                      width: 100,
+                      height: 120,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    height: 120,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Phillips Bulb"),
+                        Text("Very Bright"),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          direction: Axis.horizontal,
+                          children: [
+                            Text("Qty: "),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  counter++;
+                                });
+                              },
+                              icon: Icon(Icons.add),
+                            ),
+                            Text("$counter"),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  counter--;
+                                });
+                              },
+                              icon: Icon(Icons.remove),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Spacer(),
+            Card.outlined(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 3),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              elevation: 1,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 120,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  /*ElevatedButton(
+  onPressed: _getNetworkDetails,
+  child: const Text("Get Wifi Networks")),*/
 
   void _getNetworkDetails() async {
     final List<ConnectivityResult> connectivityResult =
