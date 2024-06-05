@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:posts_bloc/base/constants/api/app_api_calls.dart';
 
@@ -13,7 +12,6 @@ class DioManager {
   static Future<Dio?> getInstance() async {
     if (_instance == null) {
       final appDocDir = await getApplicationDocumentsDirectory();
-      Hive.init(appDocDir.path);
       final cacheStore =
           HiveCacheStore(appDocDir.path, hiveBoxName: 'posts_bloc');
 

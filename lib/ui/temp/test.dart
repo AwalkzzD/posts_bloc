@@ -1,6 +1,7 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:posts_bloc/base/screens/base_widget.dart';
+import 'package:posts_bloc/ui/temp/counter_vm.dart';
+import 'package:provider/provider.dart';
 
 class Test extends BaseWidget {
   const Test({super.key});
@@ -10,115 +11,44 @@ class Test extends BaseWidget {
 }
 
 class _TestState extends BaseWidgetState<Test> {
-  int counter = 1;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Card.outlined(
-              elevation: 10,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(8)),
-                      width: 100,
-                      height: 120,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    height: 120,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Phillips Bulb"),
-                        Text("Very Bright"),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          direction: Axis.horizontal,
-                          children: [
-                            Text("Qty: "),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  counter++;
-                                });
-                              },
-                              icon: Icon(Icons.add),
-                            ),
-                            Text("$counter"),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  counter--;
-                                });
-                              },
-                              icon: Icon(Icons.remove),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            Card.outlined(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 3),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              elevation: 1,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 120,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+    return ChangeNotifierProvider<CounterVm>(
+      create: (BuildContext context) => CounterVm(),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.amber,
+          title: const Text("ChangeNotifier Example"),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Builder(builder: (context) {
+            final counter = Provider.of<CounterVm>(context, listen: true);
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: counter.increment, icon: const Icon(Icons.add)),
+                Consumer<CounterVm>(
+                    builder: (context, counter, child) => Text(
+                          '${counter.count}',
+                          style: const TextStyle(fontSize: 20),
+                        )),
+                Visibility(
+                  visible: (counter.count > 0),
+                  replacement: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Limit Reached")),
+                  child: IconButton(
+                      onPressed: counter.decrement,
+                      icon: const Icon(Icons.remove)),
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );
-  }
-
-  /*ElevatedButton(
-  onPressed: _getNetworkDetails,
-  child: const Text("Get Wifi Networks")),*/
-
-  void _getNetworkDetails() async {
-    final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
-
-    if (connectivityResult.contains(ConnectivityResult.mobile)) {
-      print("Mobile Connection Available");
-    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
-      // Note for Android: When both mobile and Wi-Fi are turned on system will return Wi-Fi only as active network type
-      print("Wifi Connection Available");
-    } else if (connectivityResult.contains(ConnectivityResult.bluetooth)) {
-      print("Bluetooth Connection Available");
-    } else if (connectivityResult.contains(ConnectivityResult.none)) {
-      print("No Connection Available");
-    }
   }
 }
